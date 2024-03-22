@@ -1,0 +1,11 @@
+const express=require('express');
+const router=express.Router();
+const autherController=require('../controllers/auth-controllers');
+const {signupSchema,loginSchema}=require('../validators/auth-validator');
+const validate=require('../middleware/validate-middleware');
+const authMiddleware = require('../middleware/auth-middleware');
+router.route("/").get(autherController.home);
+router.route("/register").post(validate(signupSchema),autherController.register);
+router.route("/login").post(validate(loginSchema),autherController.login);
+router.route("/user").get(authMiddleware,autherController.user);
+module.exports=router;
